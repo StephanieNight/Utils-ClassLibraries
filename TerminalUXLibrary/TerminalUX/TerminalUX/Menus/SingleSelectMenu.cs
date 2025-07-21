@@ -1,4 +1,7 @@
-﻿namespace TerminalUX.Menus
+﻿using ConsoleUXLibrary.TerminalUX;
+using System;
+
+namespace TerminalUX.Menus
 {
   public class SingleSelectMenu
   {
@@ -6,34 +9,21 @@
     const string NonSelectedOption = "[   ]";
     int curserlocation = 0;
 
-    public int StartMenu(string[] options, ConsolePoint point, bool ClearScreen = false)
+    public int StartMenu(string[] options, ConsolePoint point)
     {
-      return StartMenu(options, "", ClearScreen, point.x, point.y);
+      return StartMenu(options, point.x, point.y);
     }
-    public int StartMenu(string[] options, int x, int y, bool ClearScreen = false)
-    {
-      return StartMenu(options, "", ClearScreen, x, y);
-    }
-    public int StartMenu(string[] options, string headline = "", bool ClearScreen = false, int x = -1, int y = -1)
-    {
-      if (ClearScreen) { Terminal.ClearScreen(); }
-
+    
+    public int StartMenu(string[] options,  int x = -1, int y = -1)
+    {     
       if (x == -1 && y == -1)
       {
-        var point = Terminal.GetConsolePoint();
+        var point = TerminalUtils.GetConsolePoint();
         x = point.x;
         y = point.y;
       }
 
-      Terminal.SetCursor(x, y);
-
-      if (headline != "")
-      {
-        Terminal.WriteLine(headline);
-
-        y = Terminal.GetLine();
-
-      }
+      TerminalUtils.SetCursor(x, y);
 
       curserlocation = 0;
 
@@ -41,11 +31,11 @@
 
       while (!closeMenu)
       {
-        Terminal.SetCursor(x, y);
+        TerminalUtils.SetCursor(x, y);
         RenderMenu(options);
 
         // Gets input
-        var control = Terminal.Keyboard.GetControlInput();
+        var control = TerminalKeyboard.GetControlInput();
         switch (control)
         {
           case TerminalKeyboard.Up:
@@ -72,7 +62,7 @@
       {
         // Get prefix of the following order, Is Curser option -> Is Non Selected. 
         var prefix = i == curserlocation ? CurserOption : NonSelectedOption;
-        Terminal.WriteLine(prefix + " : " + options[i]);
+        Console.WriteLine(prefix + " : " + options[i]);
       }
     }
   }

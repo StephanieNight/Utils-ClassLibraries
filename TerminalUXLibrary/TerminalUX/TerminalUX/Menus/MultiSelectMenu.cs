@@ -1,4 +1,7 @@
-﻿namespace TerminalUX.Menus
+﻿using ConsoleUXLibrary.TerminalUX;
+using System;
+
+namespace TerminalUX.Menus
 {
   public class MultiSelectMenu
   {
@@ -6,34 +9,20 @@
     const string SelectedOption = "[ * ]";
     const string NonSelectedOption = "[   ]";
     int cursorLocation = 0;
-
-    public bool[] StartMenu(string[] options, ConsolePoint point, bool ClearScreen = false)
+    public bool[] StartMenu(string[] options, ConsolePoint point)
     {
-      return StartMenu(options, "", ClearScreen, point.x, point.y);
+      return StartMenu(options,point.x, point.y);
     }
-    public bool[] StartMenu(string[] options, int x, int y, bool ClearScreen = false)
+    public bool[] StartMenu(string[] options, int x = -1, int y = -1)
     {
-      return StartMenu(options, "", ClearScreen, x, y);
-    }
-    public bool[] StartMenu(string[] options, string headline = "", bool ClearScreen = false, int x = -1, int y = -1)
-    {
-      if (ClearScreen) { Terminal.ClearScreen(); }
-
       if (x == -1 && y == -1)
       {
-        var point = Terminal.GetConsolePoint();
+        var point = TerminalUtils.GetConsolePoint();
         x = point.x;
         y = point.y;
       }
 
-      Terminal.SetCursor(x, y);
-
-      if (headline != "")
-      {
-        Terminal.WriteLine(headline);
-
-        y = Terminal.GetLine();
-      }
+      TerminalUtils.SetCursor(x, y);
 
       cursorLocation = 0;
 
@@ -43,11 +32,11 @@
 
       while (!closeMenu)
       {
-        Terminal.SetCursor(x, y);
+        TerminalUtils.SetCursor(x, y);
         RenderMenu(options, selectedItems);
 
         // Gets input
-        var control = Terminal.Keyboard.GetControlInput();
+        var control = TerminalKeyboard.GetControlInput();
         switch (control)
         {
           case TerminalKeyboard.Up:
@@ -77,7 +66,7 @@
       {
         // Get prefix of the following order, Is Cursor option -> Is Selected option -> Is Non Selected. 
         var prefix = i == cursorLocation ? CursorOption : selectedItems[i] ? SelectedOption : NonSelectedOption;
-        Terminal.WriteLine(prefix + " : " + options[i]);
+        Console.WriteLine(prefix + " : " + options[i]);
       }
     }
   }
