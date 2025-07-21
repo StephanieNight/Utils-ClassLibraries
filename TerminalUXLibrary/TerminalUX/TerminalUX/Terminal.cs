@@ -1,44 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TerminalUX.Menus;
 
 namespace TerminalUX
 {
-  public static class Terminal
+  public class Terminal
   {
-    private static TerminalKeyboard _keyboard = new TerminalKeyboard();
-    private static MultiSelectMenu _multiSelectMenu = new MultiSelectMenu();
-    private static SingleSelectMenu _singleSelectMenu = new SingleSelectMenu();
+    private TerminalKeyboard _keyboard = new TerminalKeyboard();
+    private MultiSelectMenu _multiSelectMenu = new MultiSelectMenu();
+    private SingleSelectMenu _singleSelectMenu = new SingleSelectMenu();
 
-    private static int _screenWidth = 35;
-    private static string _seperationLine = "";
-    private static string _doubleSeperationLine = "";
+    private int _screenWidth = 35;
+    private string _seperationLine = "";
+    private string _doubleSeperationLine = "";
 
-    public static TerminalKeyboard Keyboard { get { return _keyboard; } }
-    public static MultiSelectMenu MultiSelectMenu { get { return _multiSelectMenu; } }
-    public static SingleSelectMenu SingleSelectMenu { get { return _singleSelectMenu; } }
+    public TerminalKeyboard Keyboard { get { return _keyboard; } }
+    public MultiSelectMenu MultiSelectMenu { get { return _multiSelectMenu; } }
+    public SingleSelectMenu SingleSelectMenu { get { return _singleSelectMenu; } }
 
 
     // Common UX Phrases
     // ----------------------------------------------------------------------------------
-    public static void SetScreenWidth(int screenWidth)
+    public void SetScreenWidth(int screenWidth)
     {
       if (screenWidth > _screenWidth)
       {
         _screenWidth = screenWidth;
       }
     }
-    public static string SeparatorLine(int screenWidth)
+    public string SeparatorLine(int screenWidth)
     {
       SetScreenWidth(screenWidth);
       return SeparatorLine();
     }
-    public static string DoubleSeparatorLine(int screenWidth)
+    public string DoubleSeparatorLine(int screenWidth)
     {
       SetScreenWidth(screenWidth);
       return DoubleSeparatorLine();
     }
-    public static string SeparatorLine()
+    public string SeparatorLine()
     {
       if (_seperationLine.Length < _screenWidth)
       {
@@ -50,7 +51,7 @@ namespace TerminalUX
       WriteLine(_seperationLine);
       return _seperationLine;
     }
-    public static string DoubleSeparatorLine()
+    public string DoubleSeparatorLine()
     {
       if (_doubleSeperationLine.Length < _screenWidth)
       {
@@ -62,30 +63,30 @@ namespace TerminalUX
       WriteLine(_doubleSeperationLine);
       return _doubleSeperationLine;
     }
-    public static string WriteBlankLine()
+    public string WriteBlankLine()
     {
       WriteLine("");
       return "";
     }
-    public static string WriteContinue()
+    public string WriteContinue()
     {
       string line = "Continue?..";
       WriteLine(line);
       return line;
     }
-    public static string WriteCompleted()
+    public string WriteCompleted()
     {
       string line = "Completed...";
       WriteLine(line);
       return line;
     }
-    public static string WriteReady()
+    public string WriteReady()
     {
       string line = "Ready...";
       WriteLine(line);
       return line;
     }
-    public static string WriteLine(string line)
+    public string WriteLine(string line)
     {
       SetScreenWidth(line.Length);
       Console.WriteLine(line);
@@ -93,11 +94,11 @@ namespace TerminalUX
     }
     // UX Utilities
     // ----------------------------------------------------------------------------------
-    public static void ClearScreen()
+    public void ClearScreen()
     {
       Console.Clear();
     }
-    public static ConsolePoint GetConsolePoint()
+    public ConsolePoint GetConsolePoint()
     {
       ConsolePoint point = new ConsolePoint()
       {
@@ -106,21 +107,21 @@ namespace TerminalUX
       };
       return point;
     }
-    public static int GetLine()
+    public int GetLine()
     {
       return Console.CursorTop;
     }
-    public static void SetCursor(ConsolePoint point)
+    public void SetCursor(ConsolePoint point)
     {
       SetCursor(point.x, point.y);
     }
-    public static void SetCursor(int x = 0, int y = 0)
+    public void SetCursor(int x = 0, int y = 0)
     {
       Console.SetCursorPosition(x, y);
     }
     // Tables
     // ----------------------------------------------------------------------------------
-    public static ConsolePoint GetTableSize(string[] headers, string[][] data)
+    public ConsolePoint GetTableSize(string[] headers, string[][] data)
     {
       var width = 0;
       var height = 0;
@@ -143,7 +144,7 @@ namespace TerminalUX
       }
       return new ConsolePoint(width, height);
     }
-    public static void CreateTable(string[] headers, string[][] data)
+    public void CreateTable(string[] headers, string[][] data)
     {
       if (data.Length != 0)
       {
@@ -164,7 +165,7 @@ namespace TerminalUX
       }
       WriteTableBorder(columnWidths);
     }
-    private static void WriteTableBorder(int[] columnWidths)
+    private void WriteTableBorder(int[] columnWidths)
     {
       foreach (var width in columnWidths)
       {
@@ -176,7 +177,7 @@ namespace TerminalUX
       }
       Console.WriteLine("+");
     }
-    private static void WriteTableRow(int[] collumnWidths, string[] data)
+    private void WriteTableRow(int[] collumnWidths, string[] data)
     {
       if (collumnWidths.Length != data.Length)
       {
@@ -193,7 +194,7 @@ namespace TerminalUX
       }
       Console.WriteLine("|");
     }
-    private static void WriteTableHeader(int[] columnWidths, string[] headers)
+    private void WriteTableHeader(int[] columnWidths, string[] headers)
     {
       WriteTableBorder(columnWidths);
       WriteTableRow(columnWidths, headers);
