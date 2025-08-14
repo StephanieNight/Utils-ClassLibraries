@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TerminalUX;
 
 namespace ConsoleUXLibrary.TerminalUX
@@ -11,7 +9,6 @@ namespace ConsoleUXLibrary.TerminalUX
   {
     // UX Utilities
     // ----------------------------------------------------------------------------------
-
     public static ConsolePoint GetConsolePoint()
     {
       ConsolePoint point = new ConsolePoint()
